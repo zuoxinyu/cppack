@@ -675,7 +675,8 @@ void Unpacker::unpack_type(int8_t &value) {
     value = safe_data();
     safe_increment();
   } else {
-    value = safe_data();
+    uint8_t u8 = safe_data();
+    value = *reinterpret_cast<int8_t *>(&u8);
     safe_increment();
   }
 }
@@ -700,7 +701,8 @@ void Unpacker::unpack_type(int16_t &value) {
     unpack_type(val);
     value = val;
   } else {
-    value = safe_data();
+    uint8_t u8 = safe_data();
+    value = *reinterpret_cast<int8_t *>(&u8);
     safe_increment();
   }
 }
@@ -729,7 +731,8 @@ void Unpacker::unpack_type(int32_t &value) {
     unpack_type(val);
     value = val;
   } else {
-    value = safe_data();
+    uint8_t u8 = safe_data();
+    value = *reinterpret_cast<int8_t *>(&u8);
     safe_increment();
   }
 }
@@ -762,7 +765,8 @@ void Unpacker::unpack_type(int64_t &value) {
     unpack_type(val);
     value = val;
   } else {
-    value = safe_data();
+    uint8_t u8 = safe_data();
+    value = *reinterpret_cast<int8_t *>(&u8);
     safe_increment();
   }
 }
@@ -889,7 +893,7 @@ void Unpacker::unpack_type(float &value) {
     if (bits[31]) {
       mantissa *= -1;
     }
-    uint8_t exponent = 0;
+    int32_t exponent = 0;
     for (auto i = 0U; i < 8; ++i) {
       exponent += bits[i + 23] << i;
     }
@@ -928,7 +932,7 @@ void Unpacker::unpack_type(double &value) {
     if (bits[63]) {
       mantissa *= -1;
     }
-    uint16_t exponent = 0;
+    int32_t exponent = 0;
     for (auto i = 0U; i < 11; ++i) {
       exponent += bits[i + 52] << i;
     }
